@@ -1,16 +1,22 @@
+using DG.Tweening;
 using UnityEngine;
 
-public class ColorChanger : MonoBehaviour
+public class ObjectColorChanger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private Color[] _colors = { Color.red, Color.blue, Color.green, Color.yellow };
+    [SerializeField] private float _colorChangeDuration = 1f;
+	[SerializeField] private int _infiniteLoopsValue = -1;
+    
     void Start()
     {
+        Material material = GetComponent<Renderer>().material;
+        Sequence colorSequence = DOTween.Sequence();
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        foreach (Color color in _colors)
+        {
+            colorSequence.Append(material.DOColor(color, _colorChangeDuration));
+        }
         
+        colorSequence.SetLoops(_infiniteLoopsValue);
     }
 }
